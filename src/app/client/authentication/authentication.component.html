@@ -1,0 +1,59 @@
+<nb-layout>
+    <nb-layout-column>
+        <ngx-header></ngx-header>
+
+        <!--Login Form-->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-2"></div>
+                <div class="col-lg-6 col-md-8 login-box">
+                    <div class="col-lg-12 login-key">
+                        <i class="fa fa-key" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-lg-12 login-title">
+                        EMPLOYEE LOGIN
+                    </div>
+
+                    <div class="col-lg-12 login-form">
+                        <div class="col-lg-12 login-form">
+                            <form (ngSubmit)="login()" [formGroup]="employeeForm">
+                                <div class="alert alert-danger" role="alert"
+                                     *ngIf="errorMessage">
+                                    {{errorMessage}}
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="email">EMAIL</label>
+                                    <input type="email" class="form-control" formControlName="email" [(ngModel)]="employee.email" id="email">
+                                    <!--Register Error Here-->
+                                    <div class="alert alert-danger" role="alert"
+                                         *ngIf="get('email').touched && get('email').invalid">
+                                        <div *ngIf="get('email').errors.required"> Email is required</div>
+                                        <div *ngIf="get('email').errors.pattern">Invalid email address</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="password">PASSWORD</label>
+                                    <input type="password" class="form-control" formControlName="password" [(ngModel)]="employee.password" id="password">
+                                    <!--Register Error Here-->
+                                    <div class="alert alert-danger" role="alert"
+                                         *ngIf="get('password').touched && get('password').invalid">
+                                         Password is required
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 loginbttm">
+                                    <div class="col-lg-6 login-btm login-text">
+                                        <!-- Error Message -->
+                                    </div>
+                                    <div class="col-lg-6 login-btm login-button">
+                                        <button type="submit" class="btn btn-outline-primary" [disabled]="!employeeForm.valid">LOGIN</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-2"></div>
+                </div>
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header class="text-center">
+                {{pageId ? 'UPDATE PAGE' : 'ADD NEW PAGE'}}
+                <button class="btn btn-success btn-xs" style="float: right" (click)="onClickBoxes()">
+                    Manage Boxes
+                </button>
+            </nb-card-header>
+
+            <nb-card-body>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-12">
+                        <!--Reactive Form-->
+                        <form (ngSubmit)="createPage()" [formGroup]="pageForm" aria-labelledby="title">
+                            <div class="alert alert-danger" role="alert"
+                                 *ngIf="pageForm.errors">
+                                {{pageForm.errors.message}}
+                            </div>
+                            <div class="alert alert-success" role="alert"
+                                 *ngIf="successMessage">
+                                {{successMessage}}
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="title"
+                                       name="user-first-name" nbInput fullWidth
+                                       placeholder="Page Title" [(ngModel)]="page.title">
+
+                                <!--Register Error Here-->
+                                <div class="alert alert-danger" role="alert"
+                                     *ngIf="get('title').touched && get('title').invalid">
+                                    Page Title is required *
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" formControlName="menu_title"
+                                               name="user-first-name" nbInput fullWidth
+                                               placeholder="Menu Title *" [(ngModel)]="page.menu_title">
+
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('menu_title').touched && get('menu_title').invalid">
+                                            Menu title is required *
+                                        </div>
+                                    </div>
+                                    <!--Client Country-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="box_1"
+                                                [(ngModel)]="page.box_1"
+                                                name="page_box_1">
+                                            <option value="">Select a Call-out Box 1 *</option>
+                                            <option *ngFor="let box of boxes"
+                                                    value="{{box._id}}">{{box.title}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('box_1').touched && get('box_1').invalid">
+                                            Call-out box is required *
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <nb-card-header
+                                                style=" padding-top: 10px; padding-bottom: 10px; font-size: 1rem">
+                                            Page Text *
+                                        </nb-card-header>
+                                        <ngx-tiny-mce (editorKeyup)="getPageText($event)"
+                                                      ngDefaultControl></ngx-tiny-mce>
+                                    </div>
+                                    <div class="form__group u-margin-bottom-medium">
+                                        <label style="padding-top: 5px;padding-right: 20px">Homepage Display *</label>
+                                        <div class="form__radio-group">
+                                            <input type="radio" class="form__radio-input" formControlName="is_home" [(ngModel)]="page.is_home" value="1" id="homepage-display-yes">
+                                            <label for="homepage-display-yes" class="form__radio-label">
+                                                <span class="form__radio-button"></span>
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form__radio-group">
+                                            <input type="radio" class="form__radio-input" formControlName="is_home" [(ngModel)]="page.is_home" value="0" id="homepage-display-no">
+                                            <label for="homepage-display-no" class="form__radio-label">
+                                                <span class="form__radio-button"></span>
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="col-lg-6">
+
+                                    <!--Client State-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="box_2"
+                                                [(ngModel)]="page.box_2"
+                                                name="page_box_2">
+                                            <option value="">Select a Call-out Box 2</option>
+                                            <option *ngFor="let box of boxes"
+                                                    value="{{box._id}}">{{box.title}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('box_2').touched && get('box_2').invalid">
+                                            Call-out box is required *
+                                        </div>
+                                    </div>
+
+                                    <!--Client Industry-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="box_3"
+                                                [(ngModel)]="page.box_3"
+                                                name="page_box_3">
+                                            <option value="" selected>Select a Call-out Box 3*</option>
+                                            <option *ngFor="let box of boxes"
+                                                    value="{{box._id}}">{{box.title}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('box_3').touched && get('box_3').invalid">
+                                            Call-out box is required *
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <nb-card-header
+                                                style=" padding-top: 10px; padding-bottom: 10px; font-size: 1rem">
+                                            Homepage Extract *
+                                        </nb-card-header>
+                                        <ngx-simple-tiny-mce (editorKeyup)="getHomeText($event)"
+                                                      ngDefaultControl></ngx-simple-tiny-mce>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success" [disabled]="!pageForm.valid">
+                                    {{pageId ? 'UPDATE' : 'SAVE'}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

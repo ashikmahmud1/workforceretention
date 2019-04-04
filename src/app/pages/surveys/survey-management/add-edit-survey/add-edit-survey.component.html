@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nb-card>
+      <nb-card-header class="text-center">
+        {{surveyId ? 'UPDATE SURVEY' : 'ADD NEW SURVEY'}}
+      </nb-card-header>
+
+      <nb-card-body>
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-12">
+            <!--Reactive Form-->
+            <form (ngSubmit)="createPage()" [formGroup]="surveyForm" aria-labelledby="title">
+              <div class="alert alert-danger" role="alert"
+                   *ngIf="surveyForm.errors">
+                {{surveyForm.errors.message}}
+              </div>
+              <div class="alert alert-success" role="alert"
+                   *ngIf="successMessage">
+                {{successMessage}}
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="title"
+                       name="survey-title" nbInput fullWidth
+                       placeholder="Survey Title" [(ngModel)]="survey.title">
+
+                <!--Register Error Here-->
+                <div class="alert alert-danger" role="alert"
+                     *ngIf="get('title').touched && get('title').invalid">
+                  Survey Title is required *
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <nb-card-header
+                            style=" padding-top: 10px; padding-bottom: 10px; font-size: 1rem">
+                      Survey Description *
+                    </nb-card-header>
+                    <ngx-tiny-mce (editorKeyup)="getSurveyDescription($event)"
+                                  ngDefaultControl></ngx-tiny-mce>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <nb-card-header
+                            style=" padding-top: 10px; padding-bottom: 10px; font-size: 1rem">
+                      Survey Instruction *
+                    </nb-card-header>
+                    <ngx-simple-tiny-mce (editorKeyup)="getSurveyInstruction($event)"
+                                         ngDefaultControl></ngx-simple-tiny-mce>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <select class="form-control" formControlName="survey_type"
+                        [(ngModel)]="survey.survey_type"
+                        name="survey_type">
+                  <option value="">Select Survey Type *</option>
+                  <option *ngFor="let s of survey_types"
+                          value="{{s.id}}">{{s.value}}</option>
+                </select>
+                <!--Register Error Here-->
+                <div class="alert alert-danger" role="alert"
+                     *ngIf="get('survey_type').touched && get('survey_type').invalid">
+                  Survey type is required *
+                </div>
+              </div>
+              <div class="form-group">
+                <select class="form-control" formControlName="rating_scale"
+                        [(ngModel)]="survey.rating_scale"
+                        name="rating_scale">
+                  <option value="">Select Rating Scale *</option>
+                  <option *ngFor="let rating of ratings"
+                          value="{{rating.id}}">{{rating.value}}</option>
+                </select>
+                <!--Register Error Here-->
+                <div class="alert alert-danger" role="alert"
+                     *ngIf="get('rating_scale').touched && get('rating_scale').invalid">
+                  Rating scale is required *
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input type="number" min="0" class="form-control" formControlName="no_of_questions"
+                       name="no-of-questions" nbInput fullWidth
+                       placeholder="No of questions" [(ngModel)]="survey.no_of_questions">
+
+                <!--Register Error Here-->
+                <div class="alert alert-danger" role="alert"
+                     *ngIf="get('no_of_questions').touched && get('no_of_questions').invalid">
+                  No of questions is required *
+                </div>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary" [disabled]="!surveyForm.valid">
+                  {{surveyId ? 'UPDATE & CONTINUE' : 'SAVE & CONTINUE'}}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<header>
+    <nav>
+        <h1 class="logo">
+            <a routerLink="/client/home">Workforce</a>
+        </h1>
+        <ul>
+            <li><a routerLink="/client/home" routerLinkActive="active">Home</a></li>
+            <li><a routerLink="/client/product" routerLinkActive="active">Products & Services</a></li>
+            <li><a routerLink="/client/contact" routerLinkActive="active">Contact</a></li>
+            <li *ngIf="!isAuth"><a routerLink="/client/login" routerLinkActive="active">Login</a></li>
+            <li *ngIf="isAuth">
+                <a class="menu" href="#">
+                    <div class="dropdown-image">
+                        <img src="/assets/images/jack.png" class="rounded-circle profile-image" width="40%">
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item">
+                            <a routerLink="/client/dashboard" routerLinkActive="active">Dashboard</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a routerLink="/client/report" routerLinkActive="active">Report</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a routerLink="/client/profile" routerLinkActive="active">Profile</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a routerLink="" (click)="logout()">Logout</a>
+                        </li>
+                    </ul>
+                </a>
+            </li>
+
+
+            <!--Here set-up a list which will show only if the user is logged in-->
+            <!--List will have a circle image avatar-->
+            <!--when we will put cursor on top of that image that dropdown will expand-->
+            <!--Also here will have a dropdown which will have option profile, surveys, reports and login -->
+        </ul>
+    </nav>
+</header>

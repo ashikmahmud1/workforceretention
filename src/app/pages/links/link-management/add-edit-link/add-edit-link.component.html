@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header class="text-center">{{linkId ? 'UPDATE LINK' : 'UPDATE LINK'}}</nb-card-header>
+            <nb-card-body>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-8">
+
+                        <form #f="ngForm" (ngSubmit)="createLink()">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="link.title"
+                                       [ngModelOptions]="{standalone: true}" name="link-title"
+                                       placeholder="Link title *" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="link.link_url"
+                                       [ngModelOptions]="{standalone: true}" name="link-url"
+                                       placeholder="Link address" required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" [(ngModel)]="link.category"
+                                        name="link-category" required>
+                                    <option value="">Select a Link Category</option>
+                                    <option *ngFor="let category of categories" value="{{category._id}}">{{category.title}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <ngx-tiny-mce (editorKeyup)="getEditorContent($event)"
+                                              ngDefaultControl></ngx-tiny-mce>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+                                    {{linkId ? 'UPDATE' : 'SAVE'}}
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

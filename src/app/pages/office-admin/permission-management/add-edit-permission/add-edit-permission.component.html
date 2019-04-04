@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header class="text-center">{{roleId ? 'UPDATE ROLE':'ADD NEW ROLE'}}</nb-card-header>
+            <nb-card-body>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-8">
+
+                        <form #f="ngForm" (ngSubmit)="createRole()">
+                            <div class="alert alert-danger" role="alert"
+                                 *ngIf="errorMessage">
+                                {{errorMessage}}
+                            </div>
+                            <div class="alert alert-success" role="alert"
+                                 *ngIf="successMessage">
+                                {{successMessage}}
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="roleName" name="role-name"
+                                       placeholder="Role Name" required>
+                            </div>
+                            <!--CREATE THE PERMISSION TABLE HERE-->
+                            <ngx-datatable
+                                    [rows]="rows"
+                                    [columnMode]="'force'"
+                                    [headerHeight]="40"
+                                    [footerHeight]="50"
+                                    [rowHeight]="'auto'"
+                                    [count]="count">
+                                <ngx-datatable-column name="tableName">
+                                    <ng-template let-column="column" ngx-datatable-header-template>
+                                        Table Name
+                                    </ng-template>
+                                    <ng-template let-value="value" ngx-datatable-cell-template>
+                                        <strong>{{value}}</strong>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="tableRead">
+                                    <ng-template let-column="column" ngx-datatable-header-template>
+                                        Read
+                                    </ng-template>
+                                    <ng-template let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                        <nb-checkbox [value]="value" (change)="isRead(rowIndex)"></nb-checkbox>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="tableWrite">
+                                    <ng-template let-column="column" ngx-datatable-header-template>
+                                        Write
+                                    </ng-template>
+                                    <ng-template let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                        <nb-checkbox [value]="value" (change)="isWrite(rowIndex)"></nb-checkbox>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="tableUpdate">
+                                    <ng-template let-column="column" ngx-datatable-header-template>
+                                        Update
+                                    </ng-template>
+                                    <ng-template let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                        <nb-checkbox [value]="value" (change)="isUpdate(rowIndex)"></nb-checkbox>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="tableDelete">
+                                    <ng-template let-column="column" ngx-datatable-header-template>
+                                        Delete
+                                    </ng-template>
+                                    <ng-template let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                        <nb-checkbox [value]="value" (change)="isDelete(rowIndex)"></nb-checkbox>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+                                    {{roleId ? 'UPDATE':'SAVE'}}
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

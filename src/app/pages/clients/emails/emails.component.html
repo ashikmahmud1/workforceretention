@@ -1,0 +1,46 @@
+<ngx-datatable
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="40"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="count"
+        [offset]="offset"
+        [limit]="limit"
+        (page)='onPage($event)'>
+  <ngx-datatable-column name="title">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Title
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{value}}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="fromAddress">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      From Address
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{value}}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="subject">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Subject
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{value}}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="id">
+    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+      <span>Action</span>
+    </ng-template>
+    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+      <button type="button" (click)="onClickEdit(value)" *ngIf="row.editable"
+              style="font-size: 18px;background-color: transparent;border:none; cursor: pointer;color: #fff">
+        <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 22px"></i></button>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

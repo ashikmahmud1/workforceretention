@@ -1,0 +1,166 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header class="text-center">{{userId ? 'UPDATE USER' : 'Add NEW USER'}}</nb-card-header>
+            <nb-card-body>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-8">
+                        <!--Reactive Form-->
+                        <form (ngSubmit)="createUser()" [formGroup]="userForm" aria-labelledby="title">
+                            <div class="alert alert-danger" role="alert"
+                                 *ngIf="userForm.errors">
+                                {{userForm.errors.message}}
+                            </div>
+                            <div class="alert alert-success" role="alert"
+                                 *ngIf="successMessage">
+                                {{successMessage}}
+                            </div>
+                            <div class="row full-name-inputs" [formGroup]="userForm.get('name')">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" formControlName="firstName"
+                                               name="user-first-name" nbInput fullWidth
+                                               placeholder="First Name" [(ngModel)]="user.first_name">
+
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('name').get('firstName').touched && get('name').get('firstName').invalid">
+                                            FirstName is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" formControlName="lastName" name="user-last-name"
+                                               class="form-control" nbInput fullWidth
+                                               placeholder="Last Name" [(ngModel)]="user.last_name">
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('name').get('lastName').touched && get('name').get('lastName').invalid">
+                                            LastName is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--EMAIL-->
+                            <div class="form-group">
+                                <input type="email" class="form-control" formControlName="email" name="user-email"
+                                       placeholder="Email Address" [disabled]="true"
+                                       [(ngModel)]="user.email">
+                                <!--Register Error Here-->
+                                <div class="alert alert-danger" role="alert"
+                                     *ngIf="get('email').touched && get('email').invalid">
+                                    <div *ngIf="get('email').errors.required"> Email is required</div>
+                                    <div *ngIf="get('email').errors.pattern">Invalid email address</div>
+                                </div>
+                            </div>
+
+                            <!--USERNAME-->
+                            <div class="form-group">
+                                <input type="email" class="form-control" formControlName="username" name="username"
+                                       placeholder="Username" [(ngModel)]="user.username">
+                                <!--Register Error Here-->
+                                <div class="alert alert-danger" role="alert"
+                                     *ngIf="get('username').touched && get('username').invalid">
+                                    <div *ngIf="get('username').errors.required"> Username is required</div>
+                                    <div *ngIf="get('username').errors.minlength">Username should be at least 4 character long</div>
+                                </div>
+                            </div>
+
+                            <!--USER ROLE-->
+                            <div class="form-group">
+                                <select class="form-control" formControlName="role" [(ngModel)]="user.role"
+                                        name="user-role">
+                                    <option value="">Select User Role</option>
+                                    <option *ngFor="let role of roles" value="{{role._id}}">{{role.name}}</option>
+                                </select>
+                                <!--Register Error Here-->
+                                <div class="alert alert-danger" role="alert"
+                                     *ngIf="get('role').touched && get('role').invalid">
+                                    Role is required
+                                </div>
+                            </div>
+
+                            <!--USER CLIENT-->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-10">
+                                        <select class="form-control" formControlName="client" name="user-clients"
+                                                [(ngModel)]="clientId">
+                                            <option value="">Select Client</option>
+                                            <option *ngFor="let client of clients"
+                                                    value="{{client._id}}">{{client.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button type="button" class="btn btn-outline-primary" style="width: 100%"
+                                                (click)="addClient()">Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" [disabled]="!userForm.valid" class="btn btn-success">
+                                    {{userId ? 'UPDATE' : 'SAVE'}}
+                                </button>
+                            </div>
+                        </form>
+
+                        <!--Template drive from-->
+                        <!---->
+                        <!--<form>-->
+                        <!--<div class="row full-name-inputs">-->
+                        <!--<div class="col-sm-6">-->
+                        <!--<div class="form-group">-->
+                        <!--<input type="text" class="form-control" [(ngModel)]="employee.first_name"-->
+                        <!--name="employee-first-name" nbInput fullWidth-->
+                        <!--placeholder="First Name">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-6">-->
+                        <!--<div class="form-group">-->
+                        <!--<input type="text" [(ngModel)]="employee.last_name" name="employee-last-name"-->
+                        <!--class="form-control" nbInput fullWidth-->
+                        <!--placeholder="Last Name">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                        <!--<input type="email" class="form-control" [(ngModel)]="employee.email" name="employee-email"-->
+                        <!--placeholder="Email Address">-->
+                        <!--</div>-->
+                        <!--<div class="row full-name-inputs">-->
+                        <!--<div class="col-sm-6">-->
+                        <!--<div class="form-group">-->
+                        <!--<input type="password" class="form-control" [(ngModel)]="employee.password"-->
+                        <!--name="employee-password" nbInput fullWidth-->
+                        <!--placeholder="Password">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-6">-->
+                        <!--<div class="form-group">-->
+                        <!--<input type="password" [(ngModel)]="employee.confirmPassword"-->
+                        <!--name="employee-confirm-password"-->
+                        <!--class="form-control" nbInput fullWidth-->
+                        <!--placeholder="Confirm Password">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                        <!--<select class="form-control" [(ngModel)]="employee.role" (input)="onSelect($event)"-->
+                        <!--name="employee-role">-->
+                        <!--<option value="">Select User Role</option>-->
+                        <!--<option *ngFor="let role of roles" value="{{role._id}}">{{role.name}}</option>-->
+                        <!--</select>-->
+                        <!--</div>-->
+                        <!--<div class="text-center">-->
+                        <!--<button type="button" (click)="createUser()" class="btn btn-success">SAVE</button>-->
+                        <!--</div>-->
+                        <!--</form>-->
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+<nb-card>
+    <nb-card-body>
+        <!--Here display the client name-->
+        <h5 class="text-center">Client <i class="fa fa-long-arrow-right" aria-hidden="true"></i> {{client.name}}</h5>
+        <nb-tabset (changeTab)="onTabChange($event)" fullWidth>
+            <nb-tab tabTitle="Client Details" tabIcon="nb-person" responsive>
+                <!--Show the Client Information Here-->
+                <ngx-client-details [clientId]="clientId"></ngx-client-details>
+            </nb-tab>
+
+            <!--ORGANIZATIONS MANAGEMENT TAB-->
+            <nb-tab tabTitle="Organizations" tabIcon="nb-notifications" responsive>
+                <!--Show the Client Information Here-->
+                <br><br>
+
+                <!--ORGANIZATION GROUP-->
+                <div *ngIf="isAddOrganization">
+                    <ngx-add-edit-organization (selectOrganization)="selectOrganization()" [organizationId]="organizationId"
+                                               [clientId]="clientId"></ngx-add-edit-organization>
+                </div>
+                <div *ngIf="isShowOrganization">
+                    <button class="btn btn-success btn-xs" style="float: right" (click)="onClickAddOrganization()">Add
+                        Organization
+                    </button>
+                    <ngx-organizations (onAddDivision)="onClickAddDivision($event)"
+                                       (departmentEdit)="editDepartment($event)"
+                                       (divisionEdit)="editDivision($event)"
+                                       (onAddDepartment)="onClickAddDepartment($event)"
+                                       [clientId]="clientId"
+                                       (organizationEdit)="editOrganization($event)"></ngx-organizations>
+                </div>
+                <!--ORGANIZATION GROUP-->
+
+                <!--DIVISION GROUP-->
+                <div *ngIf="isAddDivision">
+                    <ngx-add-edit-division (selectDivision)="selectDivision()" [divisionId]="divisionId" [organizationId]="organizationId"></ngx-add-edit-division>
+                </div>
+                <div *ngIf="isShowDivision">
+                    <i class="icon nb-arrow-thin-left" (click)="selectOrganization()" style="font-size: 50px;cursor: pointer;color: #00d977" ></i>
+                    <button class="btn btn-success btn-xs" style="float: right" (click)="addDivisionButtonClicked()">Add
+                        Divisions
+                    </button>
+                    <ngx-divisions
+                            [organizationId]="organizationId"
+                            (divisionEdit)="editDivision($event)"
+                            (onAddDepartment)="onClickAddDepartment($event)"
+                            (onViewDepartment)="onClickViewDepartment($event)"></ngx-divisions>
+                </div>
+                <!--DIVISION GROUP END-->
+
+                <!--DEPARTMENT GROUP-->
+                <div *ngIf="isAddDepartment">
+                    <ngx-add-edit-department (selectDepartment)="selectDepartment()" [divisionId]="divisionId" [departmentId]="departmentId"></ngx-add-edit-department>
+                </div>
+                <div *ngIf="isShowDepartment">
+                    <i class="icon nb-arrow-thin-left" (click)="selectDivision()" style="font-size: 50px;cursor: pointer;color: #00d977" ></i>
+                    <button class="btn btn-success btn-xs" style="float: right" (click)="addDepartmentButtonClicked()">Add
+                        Department
+                    </button>
+                    <ngx-departments (departmentEdit)="editDepartment($event)" [divisionId]="divisionId"></ngx-departments>
+                </div>
+                <!--DEPARTMENT GROUP-->
+
+            </nb-tab>
+            <!--ORGANIZATION MANAGEMENT-->
+
+            <nb-tab tabTitle="Employees" tabIcon="nb-email" responsive>
+                <!--Show the Client Information Here-->
+                <br><br>
+                <div *ngIf="isShowEmployeeSurvey">
+                    <ngx-employee-survey [employeeId]="employeeId" [surveyCompleted]="surveyCompleted" [surveyId]="surveyId" [clientId]="clientId" (showEmployee)="showEmployees()"></ngx-employee-survey>
+                </div>
+                <div *ngIf="showEmployeeDetails">
+                    <ngx-employee-details [employeeId]="employeeId" [clientId]="clientId" (editSurvey)="editSurvey($event)"></ngx-employee-details>
+                </div>
+                <div *ngIf="isAddEmployee">
+                    <ngx-add-edit-employee [employeeId]="employeeId" [clientId]="clientId" (selectEmployeeManagement)="showEmployees()"></ngx-add-edit-employee>
+                </div>
+                <div *ngIf="isShowEmployeeTable">
+                    <button class="btn btn-success btn-xs" style="float: right" (click)="onClickAddEmployee()">Add
+                        Employee
+                    </button>
+                    <ngx-employees [clientId]="clientId" (employeeEdit)="editEmployee($event)" (employeeDetails)="onClickEmployeeDetails($event)"></ngx-employees>
+                </div>
+            </nb-tab>
+            <nb-tab tabTitle="Surveys" tabIcon="nb-person" responsive>
+                <!--Show the Client Information Here-->
+                <ngx-surveys [clientId]="clientId"></ngx-surveys>
+            </nb-tab>
+            <nb-tab tabTitle="Emails" tabIcon="nb-notifications" responsive>
+                <br><br>
+                <!--Show the Email Information Here-->
+                <div *ngIf="isEditEmail">
+                    <ngx-add-edit-email [emailId]="emailId" [clientId]="clientId"></ngx-add-edit-email>
+                </div>
+                <div *ngIf="!isEditEmail">
+                    <ngx-emails [clientId]="clientId" (emailEdit)="editEmail($event)"></ngx-emails>
+                </div>
+            </nb-tab>
+            <nb-tab tabTitle="Report Data" tabIcon="nb-email" responsive>
+                <!--Show the Client Information Here-->
+                <ngx-data-reports [clientId]="clientId"></ngx-data-reports>
+            </nb-tab>
+        </nb-tabset>
+    </nb-card-body>
+</nb-card>

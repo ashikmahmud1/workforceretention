@@ -1,0 +1,119 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header class="text-center">{{reportId ? 'UPDATE REPORT' : 'CREATE REPORT'}}</nb-card-header>
+            <nb-card-body>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-8">
+
+                        <form #f="ngForm" (ngSubmit)="createReport()">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="report.title"
+                                       [ngModelOptions]="{standalone: true}" name="report-title"
+                                       placeholder="Report Title *" required>
+                            </div>
+                            <!--Display the image selection here-->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-8" style="padding-right: 0;margin-right: 0">
+                                        <input type="text" class="form-control" name="report-file"
+                                               disabled [(ngModel)]="fileName">
+                                    </div>
+                                    <div class="col-lg-3" style="padding-left: 0;margin-left: 0">
+                                        <button type="button" class="btn btn-outline-primary"
+                                                (click)="logoPicker.click()">Browse File
+                                        </button>
+                                    </div>
+                                </div>
+                                <input type="file" (change)="onFilePicked($event)" #logoPicker
+                                       name="client-file"
+                                       placeholder="Client Logo">
+                            </div>
+                            <div class="form-group">
+                                <ngx-tiny-mce (editorKeyup)="getEditorContent($event)"
+                                              ngDefaultControl></ngx-tiny-mce>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" [(ngModel)]="report.client"
+                                        name="report-client" required>
+                                    <option value="">Select a Client</option>
+                                    <option *ngFor="let client of clients"
+                                            value="{{client._id}}">{{client.name}}</option>
+                                </select>
+                            </div>
+                            <!--VIEW AT ORG LEVEL-->
+                            <div class="form__group u-margin-bottom-medium">
+                                <label style="padding-top: 5px;padding-right: 44px">Level Org *</label>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="is_manager" value="1"
+                                           id="level-org-yes">
+                                    <label for="level-org-yes" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="is_manager" value="0"
+                                           id="level-org-no">
+                                    <label for="level-org-no" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!--VIEW AT DIV LEVEL-->
+                            <div class="form__group u-margin-bottom-medium">
+                                <label style="padding-top: 5px;padding-right: 47px">Level Div *</label>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="is_report" value="1"
+                                           id="level-div-yes">
+                                    <label for="level-div-yes" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="is_report" value="0"
+                                           id="level-div-no">
+                                    <label for="level-div-no" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!--VIEW AT DEPT LEVEL-->
+                            <div class="form__group u-margin-bottom-medium">
+                                <label style="padding-top: 5px;padding-right: 37px">Level Dept *</label>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="is_survey" value="1"
+                                           id="level-dept-yes">
+                                    <label for="level-dept-yes" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="is_survey" value="0"
+                                           id="level-dept-no">
+                                    <label for="level-dept-no" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+                                    {{reportId ? 'UPDATE' : 'SAVE'}}
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

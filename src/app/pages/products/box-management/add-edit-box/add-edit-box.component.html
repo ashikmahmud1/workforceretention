@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header class="text-center">
+                {{boxId ? 'UPDATE BOX' : 'ADD NEW BOX'}}
+            </nb-card-header>
+            <nb-card-body>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-12">
+                        <!--Reactive Form-->
+                        <form (ngSubmit)="createBox()" [formGroup]="boxForm" aria-labelledby="title">
+                            <div class="alert alert-danger" role="alert"
+                                 *ngIf="boxForm.errors">
+                                {{boxForm.errors.message}}
+                            </div>
+                            <div class="alert alert-success" role="alert"
+                                 *ngIf="successMessage">
+                                {{successMessage}}
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="title"
+                                       name="user-first-name" nbInput fullWidth
+                                       placeholder="Box Title *" [(ngModel)]="box.title">
+
+                                <!--Register Error Here-->
+                                <div class="alert alert-danger" role="alert"
+                                     *ngIf="get('title').touched && get('title').invalid">
+                                    Client name is required *
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Box Description *</label>
+                                <ngx-tiny-mce (editorKeyup)="getEditorContent($event)"
+                                              ngDefaultControl></ngx-tiny-mce>
+                            </div>
+
+                            <!--Display the image selection here-->
+                            <div class="form-group">
+                                <label>Large Image</label>
+                                <input type="file" class="form-control" formControlName="large_image"
+                                       name="user-first-name" nbInput fullWidth
+                                       placeholder="Large Image" [(ngModel)]="box.large_image">
+
+                            </div>
+
+                            <!--Display the image selection here-->
+                            <div class="form-group">
+                                <label>Thumb Image</label>
+                                <input type="file" class="form-control" formControlName="thumb_image"
+                                       name="user-first-name" nbInput fullWidth
+                                       placeholder="Thumb Image" [(ngModel)]="box.thumb_image">
+
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success" [disabled]="!boxForm.valid">
+                                    {{boxId ? 'UPDATE' : 'SAVE'}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

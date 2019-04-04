@@ -1,0 +1,206 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <div class="row">
+                <div class="col-lg-12">
+                    <!--Client Industry Row-->
+                    <br>
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Survey Title</strong></div>
+                        <div class="col-lg-5">{{survey.title}}</div>
+                    </div>
+                    <br>
+                    <!--No Of Employees-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Survey Description</strong></div>
+                        <div class="col-lg-5" [innerHTML]="survey.description"></div>
+                    </div>
+                    <br>
+                    <!--Employee Turnover-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Survey Type</strong></div>
+                        <div class="col-lg-5">{{survey.type_label}}</div>
+                    </div>
+                    <br>
+                    <!--Client State and Country-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Rating Scale</strong></div>
+                        <div class="col-lg-5">{{survey.rating_label}}</div>
+                    </div>
+                    <br>
+                    <!--Client Product-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>No of questions</strong></div>
+                        <div class="col-lg-5">{{phoneForms.length}}</div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <form [formGroup]="myForm" (ngSubmit)="submitSurvey()">
+
+                <div formArrayName="phones">
+                    <div class="panel">
+                        <div class="question-box" *ngFor="let phone of phoneForms.controls; let i=index"
+                             [formGroupName]="i">
+                            <a [routerLink]="" style="float: right;color: #ff5680;font-size: 30px" (click)="deletePhone(i)">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                            <div class="container question-container" style="margin-bottom: 10px">
+                                <h4>Question # {{i+1}}.</h4>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-md-2">Question Text: *</div>
+                                    <div class="col-md-9">
+                                        <input formControlName="area" class="form-control" required>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-2">Question Type: *</div>
+                                    <div class="col-md-9">
+                                        <select class="form-control" formControlName="prefix" (change)="onChangeQuestionType(i, $event.target.value)" required>
+                                            <option value="" selected>Select Question Type *</option>
+                                            <option *ngFor="let type of question_types"
+                                                    value="{{type.id}}">{{type.value}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <!--when selection question type is Ratings Radio Buttons, Free Text, Yes No Radio Button then nothing will happen-->
+
+                                <!--When selecting question type is Exit Interview - Exit Reasons Then Checkbox Option will generate-->
+                                <!--Options [Career Opportunities, Meaningful Work,Communication, Effective Leadership, Induction, Learning & Development]-->
+                                <!--Options [Manager, Pay & Benefits, Work Conditions, Being Valued, Operational, Restructure]-->
+
+                                <!--When Selecting Radio Labels Then generate a dropdown field with label 1-10-->
+                                <!--If the number of labels selected is 3 then Generate Three input field-->
+
+                                <!--When Selecting Multiple Choice Then generate a dropdown field with label 1-10-->
+                                <!--If the number of labels selected is 3 then Generate Three input field-->
+
+                                <!--Depending on question selection. hide or display-->
+                                <!--Depending on question type here generate the input field-->
+                                <!--There are some static field. put in here-->
+
+                                <!-- ************Tricks to Solve The Above Problem**************-->
+                                <!-- create a div and add an id exit-reason-i here i is dynamic value also give a class called hide. which initially hides the div-->
+                                <!-- inside div create the input checkbox with the appropriate label-->
+                                <div class="row hide-div" id="exit-reason-{{i}}">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-9">
+                                        <div class="form-group">
+                                            <div class="row" id="exit-reason-option-{{i}}">
+                                                <div class="col-lg-4">
+                                                    <div class="boxes">
+                                                        <input type="checkbox" id="career-opportunities-{{i}}">
+                                                        <label for="career-opportunities-{{i}}">Career Opportunities</label>
+
+                                                        <input type="checkbox" id="meaningful-work-{{i}}">
+                                                        <label for="meaningful-work-{{i}}">Meaningful Work</label>
+
+                                                        <input type="checkbox" id="communication-{{i}}">
+                                                        <label for="communication-{{i}}">Communication</label>
+
+                                                        <input type="checkbox" id="effective-leadership-{{i}}">
+                                                        <label for="effective-leadership-{{i}}">Effective Leadership</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="boxes">
+                                                        <input type="checkbox" id="induction-{{i}}">
+                                                        <label for="induction-{{i}}">Induction</label>
+
+                                                        <input type="checkbox" id="learning-development-{{i}}">
+                                                        <label for="learning-development-{{i}}">Learning & Development</label>
+
+                                                        <input type="checkbox" id="manager-{{i}}">
+                                                        <label for="manager-{{i}}">Manager</label>
+
+                                                        <input type="checkbox" id="pay-benefits-{{i}}">
+                                                        <label for="pay-benefits-{{i}}">Pay & Benefits</label>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="boxes">
+                                                        <input type="checkbox" id="work-conditions-{{i}}">
+                                                        <label for="work-conditions-{{i}}">Work Conditions</label>
+
+                                                        <input type="checkbox" id="being-valued-{{i}}">
+                                                        <label for="being-valued-{{i}}">Being Valued</label>
+
+                                                        <input type="checkbox" id="operational-{{i}}">
+                                                        <label for="operational-{{i}}">Operational</label>
+
+                                                        <input type="checkbox" id="restructure-{{i}}">
+                                                        <label for="restructure-{{i}}">Restructure</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- create another div and add id radio-label-i here i is also dynamic value also give a class call hide-->
+                                <!-- create the select input with value from 0 to 10 add a change event. so when the value change from 0 to 1 for example then generate 1 text-box-->
+                                <div class="row hide-div" id="radio-label-{{i}}">
+                                    <div class="col-lg-2">Number Of Labels</div>
+                                    <div class="col-lg-9">
+                                        <div class="form-group">
+                                            <!--Add a change event handler-->
+                                            <select class="form-control" (change)="onChangeRadioLabel(i, $event.target.value)" id="no-of-radio-label-{{i}}">
+                                                <option *ngFor="let label of no_of_labels" value="{{label}}">{{label}}</option>
+                                            </select>
+                                        </div>
+                                        <!--Here generate the Labels-->
+                                        <div id="generate-radio-label-{{i}}"></div>
+
+                                    </div>
+                                </div>
+
+                                <!-- create another div and add id multiple-choice-i here i is also dynamic value also give a class call hide-->
+                                <!-- create the select input with value from 0 to 10 add a change event. so when the value change from 0 to 1 for example then generate 1 text-box-->
+                                <div class="row hide-div" id="multiple-choice-{{i}}">
+                                    <div class="col-lg-2">Number Of Labels</div>
+                                    <div class="col-lg-9">
+                                        <div class="form-group">
+                                            <!--Add a change event handler-->
+                                            <select class="form-control" (change)="onChangeMultipleChoice(i, $event.target.value)" id="no-of-multiple-choice-{{i}}">
+                                                <option *ngFor="let label of no_of_labels" value="{{label}}">{{label}}</option>
+                                            </select>
+                                        </div>
+                                        <!--Here generate the Labels-->
+                                        <div id="generate-multiple-choice-{{i}}"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2">Exit Reporting Reason: *</div>
+                                    <div class="col-md-9">
+                                        <select class="form-control" formControlName="exit_reason">
+                                            <option value="" selected>Select Reporting Reason *</option>
+                                            <option *ngFor="let reason of exit_reason"
+                                                    value="{{reason.id}}">{{reason.value}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-2">Exit Reporting Label: *</div>
+                                    <div class="col-md-9">
+                                        <input formControlName="line" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <input class="btn btn-primary" type="submit" value="Finish">
+                    <button style="margin-left: 50px" type="button" (click)="addPhone()" class="btn btn-primary">Add More</button>
+                </div>
+                <br><br>
+            </form>
+        </nb-card>
+    </div>
+</div>

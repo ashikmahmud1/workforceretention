@@ -1,0 +1,92 @@
+<nb-layout>
+    <nb-layout-column>
+        <ngx-header></ngx-header>
+        <ngx-page-name [pageName]="'Contact'"></ngx-page-name>
+
+        <section class="home-section light-gray">
+            <div class="container">
+                <form [formGroup]="contactForm" (ngSubmit)="sendEmail()">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <!--Contact Information-->
+                            <div class="text-center">
+                                <h1 style="color: #000;">Do you need help?</h1>
+                                <h6 style="color: #000;">For more information about our products and services please
+                                    leave us a message <br>or<br> call <b>Angeline Wilkes</b> direct on <b>02 8413-0170</b></h6>
+                            </div>
+                            <br><br>
+                            <!--Contact Text-box-->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" formControlName="name" [(ngModel)]="email.name"
+                                               name="name"
+                                               placeholder="Your Name" required>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('name').touched && get('name').invalid">
+                                            Name is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" formControlName="email" [(ngModel)]="email.from_email"
+                                               name="from-email"
+                                               placeholder="Your Email" required>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('email').touched && get('email').invalid">
+                                            <div *ngIf="get('email').errors.required"> Email is required</div>
+                                            <div *ngIf="get('email').errors.pattern">Invalid email address</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" formControlName="subject" [(ngModel)]="email.subject"
+                                               name="subject"
+                                               placeholder="Subject" required>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('subject').touched && get('subject').invalid">
+                                            Subject is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <textarea type="text" rows="5" class="form-control" formControlName="message" [(ngModel)]="email.message"
+                                                  name="message"
+                                                  placeholder="Message" required>
+                                        </textarea>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('message').touched && get('message').invalid">
+                                            Message is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2"></div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </nb-layout-column>
+</nb-layout>

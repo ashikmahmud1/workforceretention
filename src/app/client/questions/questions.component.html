@@ -1,0 +1,180 @@
+<nb-layout>
+    <nb-layout-column>
+        <ngx-header></ngx-header>
+        <ngx-page-name [pageName]="pageName"></ngx-page-name>
+        <section class="home-section light-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10">
+                        <form (ngSubmit)="onSubmitAnswer()">
+                            <div *ngFor="let cat_question of categorical_questions">
+                                <div class="question-box" *ngIf="cat_question.questions.length > 0">
+                                    <h4>{{cat_question.exit_reason}}</h4>
+                                    <br>
+                                    <div *ngFor="let question of cat_question.questions;"
+                                         class="individual-question-box">
+                                        <h6>{{question.question_no}}. {{question.title}}</h6>
+
+                                        <div *ngIf="question.type==1 && cat_question.exit_reason !='Final Question'">
+                                            <!--OPTIONS-->
+                                            <div class="form__group u-margin-bottom-medium">
+                                                <div class="form__radio-group"
+                                                     *ngFor="let option of survey.rating_labels; let radio_label_index=index">
+                                                    <input type="radio" class="form__radio-input"
+                                                           value="{{radio_label_index}}"
+                                                           name="rating-radio-label-{{question.question_no}}"
+                                                           id="rating-radio-label-{{question.question_no}}-{{radio_label_index}}">
+                                                    <label for="rating-radio-label-{{question.question_no}}-{{radio_label_index}}"
+                                                           class="form__radio-label">
+                                                        <span class="form__radio-button"></span>
+                                                        {{option}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="question.type==2 && cat_question.exit_reason !='Final Question'">
+                                            <div class="form-group">
+                                                <textarea class="form-control form__input" rows="4"
+                                                          id="question-comment-{{question.question_no}}"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="question.type==3 && cat_question.exit_reason !='Final Question'">
+                                            <!--Here only show the selected item-->
+                                            <div class="boxes">
+                                                <div *ngFor="let option of question.options; let multiple_choice_index=index"
+                                                     class="multiple-choice-input">
+                                                    <ng-container *ngIf="option=='true'">
+                                                        <input type="checkbox"
+                                                               id="exit-reason-choice-{{question.question_no}}-{{multiple_choice_index}}">
+                                                        <label for="exit-reason-choice-{{question.question_no}}-{{multiple_choice_index}}">{{exit_reason_checkbox[multiple_choice_index].value}}</label>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="question.type==4 && cat_question.exit_reason !='Final Question'">
+                                            <div class="form__group u-margin-bottom-medium">
+                                                <div class="form__radio-group">
+                                                    <input type="radio" class="form__radio-input"
+                                                           name="radio-{{question.question_no}}" value="1"
+                                                           id="radio-{{question.question_no}}-yes">
+                                                    <label for="radio-{{question.question_no}}-yes"
+                                                           class="form__radio-label">
+                                                        <span class="form__radio-button"></span>
+                                                        Yes
+                                                    </label>
+                                                </div>
+                                                <div class="form__radio-group">
+                                                    <input type="radio" class="form__radio-input"
+                                                           name="radio-{{question.question_no}}" value="0"
+                                                           id="radio-{{question.question_no}}-no">
+                                                    <label for="radio-{{question.question_no}}-no"
+                                                           class="form__radio-label">
+                                                        <span class="form__radio-button"></span>
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="question.type==5 && cat_question.exit_reason !='Final Question'">
+                                            <!--OPTIONS-->
+                                            <div class="form__group u-margin-bottom-medium">
+                                                <div class="form__radio-group"
+                                                     *ngFor="let option of question.options; let radio_label_index=index">
+                                                    <input type="radio" class="form__radio-input" value="1"
+                                                           name="radio-label-{{question.question_no}}"
+                                                           id="radio-label-{{question.question_no}}-{{radio_label_index}}">
+                                                    <label for="radio-label-{{question.question_no}}-{{radio_label_index}}"
+                                                           class="form__radio-label">
+                                                        <span class="form__radio-button"></span>
+                                                        {{option}}
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div *ngIf="question.type==6 && cat_question.exit_reason !='Final Question'">
+                                            <div class="boxes">
+                                                <div *ngFor="let option of question.options; let multiple_choice_index=index"
+                                                     class="multiple-choice-input">
+                                                    <input type="checkbox"
+                                                           id="multiple-choice-{{question.question_no}}-{{multiple_choice_index}}">
+                                                    <label for="multiple-choice-{{question.question_no}}-{{multiple_choice_index}}">{{option}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="cat_question.exit_reason == 'Final Question'">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+
+
+                                                    <table width="100%">
+                                                        <tr>
+                                                            <th>Exit Reason</th>
+                                                            <th>1<sup>st</sup> Choice</th>
+                                                            <th>2<sup>nd</sup> Choice</th>
+                                                        </tr>
+                                                        <tr *ngFor="let exit_reason of exit_reason_checkbox; let i=index">
+                                                            <ng-container *ngIf="question.options[i] == 'true'">
+                                                                <td>{{exit_reason.value}}</td>
+                                                                <td style="padding-bottom: 20px">
+                                                                    <div class="form__group u-margin-bottom-medium">
+                                                                        <div class="form__radio-group">
+                                                                            <input type="radio"
+                                                                                   class="form__radio-input"
+                                                                                   name="final-1st-choice"
+                                                                                   value="{{exit_reason.value}}"
+                                                                                   id="final-1st-choice-{{question.question_no}}-{{exit_reason.id}}">
+                                                                            <label for="final-1st-choice-{{question.question_no}}-{{exit_reason.id}}"
+                                                                                   class="form__radio-label">
+                                                                                <span class="form__radio-button"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="padding-bottom: 20px">
+                                                                    <div class="form__group u-margin-bottom-medium">
+                                                                        <div class="form__radio-group">
+                                                                            <input type="radio"
+                                                                                   class="form__radio-input"
+                                                                                   name="final-2nd-choice"
+                                                                                   value="{{exit_reason.value}}"
+                                                                                   id="final-2nd-choice-{{question.question_no}}-{{exit_reason.id}}">
+                                                                            <label for="final-2nd-choice-{{question.question_no}}-{{exit_reason.id}}"
+                                                                                   class="form__radio-label">
+                                                                                <span class="form__radio-button"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </ng-container>
+                                                        </tr>
+                                                    </table>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary" type="submit">
+                                    {{answers.length > 0 ? 'Update' : 'Submit'}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-2"></div>
+                </div>
+            </div>
+        </section>
+    </nb-layout-column>
+</nb-layout>

@@ -1,0 +1,217 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header class="text-center">
+                {{clientId ? 'UPDATE CLIENT' : 'ADD NEW CLIENT'}}
+                <button class="btn btn-success btn-xs" style="float: right" (click)="onClickIndustries()">Manage
+                    Industries
+                </button>
+            </nb-card-header>
+
+            <nb-card-body>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-12">
+                        <!--Reactive Form-->
+                        <form (ngSubmit)="createClient()" [formGroup]="clientForm" aria-labelledby="title">
+                            <div class="alert alert-danger" role="alert"
+                                 *ngIf="clientForm.errors">
+                                {{client.errors.message}}
+                            </div>
+                            <div class="alert alert-success" role="alert"
+                                 *ngIf="successMessage">
+                                {{successMessage}}
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="name"
+                                       name="user-first-name" nbInput fullWidth
+                                       placeholder="Client Name" [(ngModel)]="client.name">
+
+                                <!--Register Error Here-->
+                                <div class="alert alert-danger" role="alert"
+                                     *ngIf="get('name').touched && get('name').invalid">
+                                    Client name is required *
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <!--Client Country-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="country"
+                                                [(ngModel)]="client.country">
+                                            <option value="">Select Country</option>
+                                            <option *ngFor="let country of getCountries()"
+                                                    value="{{country.id}}">{{country.name}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('country').touched && get('country').invalid">
+                                            Country is required *
+                                        </div>
+                                    </div>
+
+                                    <!--Client State-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="state"
+                                                [(ngModel)]="client.state">
+                                            <option value="">Select State</option>
+                                            <option *ngFor="let state of australianState"
+                                                    value="{{state.name}}">{{state.name}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('state').touched && get('state').invalid">
+                                            State is required *
+                                        </div>
+                                    </div>
+
+                                    <!--Client Industry-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="industry"
+                                                [(ngModel)]="client.industry">
+                                            <option value="">Select Industry</option>
+                                            <option *ngFor="let industry of industries"
+                                                    value="{{industry._id}}">{{industry.name}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('industry').touched && get('industry').invalid">
+                                            Industry is required *
+                                        </div>
+                                    </div>
+
+                                    <!--Client Product-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="product"
+                                                [(ngModel)]="client.product">
+                                            <option value="">Select Product</option>
+                                            <option *ngFor="let product of products"
+                                                    value="{{product.id}}">{{product.name}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('product').touched && get('product').invalid">
+                                            Product is required *
+                                        </div>
+                                    </div>
+
+                                    <!--Display the image selection here-->
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-8" style="padding-right: 0;margin-right: 0">
+                                                <input type="text" class="form-control" formControlName="fileName"
+                                                       disabled [(ngModel)]="fileName">
+                                            </div>
+                                            <div class="col-lg-3" style="padding-left: 0;margin-left: 0">
+                                                <button type="button" class="btn btn-outline-primary"
+                                                        (click)="logoPicker.click()">Browse Logo
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <input type="file" (change)="onFilePicked($event)" #logoPicker
+                                               class="form-control" formControlName="imagePath"
+                                               name="client-logo" nbInput fullWidth
+                                               placeholder="Client Logo">
+                                    </div>
+                                    <div class="text-center" style="max-width: 200px;max-height: 200px"
+                                         *ngIf="clientId && imageSrc !==''">
+                                        <img [src]="imageSrc" width="70%" *ngIf="clientId" alt="Client Logo">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+
+                                    <!--Client Aggregate Report-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="aggregate_reports"
+                                                [(ngModel)]="client.aggregate_reports">
+                                            <option value="" selected>Select Aggregate Report</option>
+                                            <option *ngFor="let report of aggregate_reports"
+                                                    value="{{report.id}}">{{report.name}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('aggregate_reports').touched && get('aggregate_reports').invalid">
+                                            Aggregate report is required *
+                                        </div>
+                                    </div>
+
+                                    <!--Client Org.Level Mgt-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="org_mgt"
+                                                [(ngModel)]="client.org_mgt">
+                                            <option value="" selected>Select Organization Level</option>
+                                            <option *ngFor="let level of levels"
+                                                    value="{{level.id}}">{{level.name}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('org_mgt').touched && get('org_mgt').invalid">
+                                            Organization level is required *
+                                        </div>
+                                    </div>
+
+                                    <!--Client Div.Level Mgt-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="div_mgt"
+                                                [(ngModel)]="client.div_mgt">
+                                            <option value="" selected>Select Division Level</option>
+                                            <option *ngFor="let level of levels"
+                                                    value="{{level.id}}">{{level.name}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('div_mgt').touched && get('div_mgt').invalid">
+                                            Division level is required *
+                                        </div>
+                                    </div>
+
+                                    <!--Client Dept.Level Mgt-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="dept_mgt"
+                                                [(ngModel)]="client.dept_mgt">
+                                            <option value="" selected>Select Department Level</option>
+                                            <option *ngFor="let level of levels"
+                                                    value="{{level.id}}">{{level.name}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('dept_mgt').touched && get('dept_mgt').invalid">
+                                            Department level is required *
+                                        </div>
+                                    </div>
+
+                                    <!--Client Workforces-->
+                                    <div class="form-group">
+                                        <select class="form-control" formControlName="workforce"
+                                                [(ngModel)]="client.workforce">
+                                            <option value="" selected>Select No of employees</option>
+                                            <option *ngFor="let workforce of workforces"
+                                                    value="{{workforce.id}}">{{workforce.value}}</option>
+                                        </select>
+                                        <!--Register Error Here-->
+                                        <div class="alert alert-danger" role="alert"
+                                             *ngIf="get('workforce').touched && get('workforce').invalid">
+                                            No of employees is required *
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--Client Turnover-->
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="turnover"
+                                       name="client-employee-turnover" nbInput fullWidth
+                                       placeholder="Employee Turnover" [(ngModel)]="client.turnover">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success" [disabled]="!clientForm.valid">
+                                    {{clientId ? 'UPDATE' : 'SAVE'}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

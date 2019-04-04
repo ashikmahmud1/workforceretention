@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nb-card>
+      <nb-card-header
+              class="text-center">{{emailId ? 'UPDATE EMAIL' : 'ADD NEW EMAIL'}}</nb-card-header>
+      <nb-card-body>
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-8">
+
+            <form #f="ngForm" (ngSubmit)="createEmail()">
+              <div class="alert alert-danger" role="alert"
+                   *ngIf="errorMessage">
+                {{errorMessage}}
+              </div>
+              <div class="alert alert-success" role="alert"
+                   *ngIf="successMessage">
+                {{successMessage}}
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" [(ngModel)]="email.fromAddress"
+                       name="email-from-address"
+                       placeholder="From Address" required>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="email.subject"
+                       name="email-subject"
+                       placeholder="Email Subject" required>
+              </div>
+              <div class="form-group">
+                                <textarea class="form-control form-rounded" [(ngModel)]="email.body" name="email-body"
+                                          placeholder="" rows="10" required></textarea>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+                  {{emailId ? 'UPDATE' : 'SAVE'}}
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

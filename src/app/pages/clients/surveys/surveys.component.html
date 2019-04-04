@@ -1,0 +1,46 @@
+<ngx-datatable
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="40"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="count"
+        [offset]="offset"
+        [limit]="limit"
+        (page)='onPage($event)'>
+    <ngx-datatable-column name="title">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            Survey Title
+        </ng-template>
+        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="type">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            Survey Type
+        </ng-template>
+        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="assigned">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            Assigned
+        </ng-template>
+        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+            <i class="fa fa-check-square-o" aria-hidden="true" *ngIf="value"></i>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="id">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            <span>Action</span>
+        </ng-template>
+        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+            <button type="button" class="btn btn-xs btn-success"
+                    (click)="onClickAssign(value,row.assigned)">{{row.assigned ? 'Unassign' : 'Assign'}}</button>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

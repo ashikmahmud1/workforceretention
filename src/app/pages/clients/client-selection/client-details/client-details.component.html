@@ -1,0 +1,105 @@
+<div class="container">
+    <br><br><br>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-8">
+            <!--Client Industry Row-->
+            <div class="row">
+                <div class="col-lg-4"><strong>Client Industry</strong></div>
+                <div class="col-lg-5">{{client.industry_label}}</div>
+            </div>
+            <br>
+            <!--No Of Employees-->
+            <div class="row">
+                <div class="col-lg-4"><strong>No Of Employees</strong></div>
+                <div class="col-lg-5">{{client.employees_label}}</div>
+            </div>
+            <br>
+            <!--Employee Turnover-->
+            <div class="row">
+                <div class="col-lg-4"><strong>Employee Turnover</strong></div>
+                <div class="col-lg-5">{{client.turnover}}</div>
+            </div>
+            <br>
+            <!--Client State and Country-->
+            <div class="row">
+                <div class="col-lg-4"><strong>Client State, Country</strong></div>
+                <div class="col-lg-5">{{client.state_country_label}}</div>
+            </div>
+            <br>
+            <!--Client Product-->
+            <div class="row">
+                <div class="col-lg-4"><strong>Product Usage</strong></div>
+                <div class="col-lg-5">{{client.product_label}}</div>
+            </div>
+            <br>
+            <!--Org Level Management-->
+            <div class="row">
+                <div class="col-lg-4"><strong>Org. Level Management</strong></div>
+                <div class="col-lg-5">{{client.organization_label}}</div>
+            </div>
+            <br>
+            <!--Division Level Management-->
+            <div class="row">
+                <div class="col-lg-4"><strong>Div. Level Management</strong></div>
+                <div class="col-lg-5">{{client.division_label}}</div>
+            </div>
+            <br>
+            <!--Department Level Management-->
+            <div class="row">
+                <div class="col-lg-4"><strong>Dept. Level Management</strong></div>
+                <div class="col-lg-5">{{client.department_label}}</div>
+            </div>
+            <!--Here Put the Email Template-->
+            <br>
+            <div class="row">
+                <div class="col-lg-4"><strong>Email Template</strong></div>
+                <div class="col-lg-8">
+                    <!--FULL REPORTING-->
+                    <div class="form__group u-margin-bottom-medium">
+                        <div class="form__radio-group">
+                            <input type="radio" name="interview-type" class="form__radio-input" value="template-one"
+                                   id="template-one" (change)="onChangeEmailTemplate($event)">
+                            <label for="template-one" class="form__radio-label">
+                                <span class="form__radio-button"></span>
+                                Phone Interview
+                            </label>
+                        </div>
+                        <div class="form__radio-group">
+                            <input type="radio" name="interview-type" class="form__radio-input" value="template-two"
+                                   id="template-two" (change)="onChangeEmailTemplate($event)">
+                            <label for="template-two" class="form__radio-label">
+                                <span class="form__radio-button"></span>
+                                Online Survey
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4"><strong>Reminder Email</strong></div>
+                <div class="col-lg-8">
+                    <!--FULL REPORTING-->
+                    <div class="form__group u-margin-bottom-medium">
+                        <div class="form__radio-group">
+                            <input type="radio" name="reminder-email" class="form__radio-input" value="true"
+                                   id="reminder-email-on" (change)="onChangeReminderEmailStatus($event)">
+                            <label for="reminder-email-on" class="form__radio-label">
+                                <span class="form__radio-button"></span>
+                                ON
+                            </label>
+                        </div>
+                        <div class="form__radio-group">
+                            <input type="radio" name="reminder-email" class="form__radio-input" value="false"
+                                   id="reminder-email-off" (change)="onChangeReminderEmailStatus($event)">
+                            <label for="reminder-email-off" class="form__radio-label">
+                                <span class="form__radio-button"></span>
+                                OFF
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

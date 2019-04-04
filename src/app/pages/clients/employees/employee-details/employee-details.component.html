@@ -1,0 +1,127 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header class="text-center">
+                Employee Detail
+            </nb-card-header>
+            <div class="row">
+                <div class="col-lg-12">
+                    <!--Client Industry Row-->
+                    <br>
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Employee Name</strong></div>
+                        <div class="col-lg-5">{{employee.first_name}} {{employee.last_name}}</div>
+                    </div>
+                    <br>
+                    <!--No Of Employees-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Employee Email</strong></div>
+                        <div class="col-lg-5">{{employee.email}}</div>
+                    </div>
+                    <br>
+                    <!--Employee Turnover-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Position Title</strong></div>
+                        <div class="col-lg-5">{{employee.position}}</div>
+                    </div>
+                    <br>
+                    <!--Client State and Country-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Organization Level</strong></div>
+                        <div class="col-lg-5">{{employee.organization}} -> {{employee.division}}
+                            -> {{employee.department}}</div>
+                    </div>
+                    <br>
+                    <!--Client Product-->
+                    <div class="row align-items-center justify-content-center" *ngIf="employee.hire_date">
+                        <div class="col-lg-4"><strong>Hire Date</strong></div>
+                        <div class="col-lg-5">{{employee.hire_date | date}}</div>
+                        <br>
+                        <br>
+                    </div>
+                    <!--Client Product-->
+                    <div class="row align-items-center justify-content-center" *ngIf="employee.resign_date">
+                        <div class="col-lg-4"><strong>Resignation Date</strong></div>
+                        <div class="col-lg-5">{{employee.resign_date | date}}</div>
+                        <br>
+                        <br>
+                    </div>
+                    <!--Client Product-->
+                    <div class="row align-items-center justify-content-center" *ngIf="employee.exit_date">
+                        <div class="col-lg-4"><strong>Exit Date</strong></div>
+                        <div class="col-lg-5">{{employee.exit_date | date}}</div>
+                        <br>
+                        <br>
+                    </div>
+
+                    <div class="row align-items-center justify-content-center padding-bottom-10"
+                         *ngIf="!surveyCompleted && employee.is_survey == '1' && employee.is_manager=='0'">
+                        <div class="col-lg-4"><strong>Complete Exit Interview</strong></div>
+                        <div class="col-lg-5">
+                            <a [routerLink]="" (click)="onEditSurvey()" *ngIf="surveyId">Click here to complete Exit
+                                Interview</a>
+                            <span *ngIf="!surveyId">No surveys available</span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center justify-content-center padding-bottom-10"
+                         *ngIf="surveyCompleted && employee.is_survey == '1' && employee.is_manager=='0'">
+                        <div class="col-lg-4"><strong>View Exit Interview Results</strong></div>
+                        <div class="col-lg-5"><a [routerLink]="" (click)="onEditSurvey()">Click here to View these Exit
+                            Interview Results</a></div>
+                    </div>
+                    <div class="row align-items-center justify-content-center padding-bottom-10"
+                         *ngIf="surveyCompleted && employee.is_survey == '1' && employee.is_manager=='0'">
+                        <div class="col-lg-4"><strong>Download PDF</strong></div>
+                        <div class="col-lg-5"><a [routerLink]="" (click)="onDownloadPdf()">Click here to download a pdf
+                            of these Exit Interview Results</a></div>
+                    </div>
+                    <!--Client Product-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Level Manager</strong></div>
+                        <div class="col-lg-5">
+                            <i class="fa fa-check-square-o" aria-hidden="true"
+                               *ngIf="employee.is_manager == '1'"></i>
+                            <i class="fa fa-times" aria-hidden="true"
+                               *ngIf="employee.is_manager == '0'"></i>
+                        </div>
+                    </div>
+                    <br>
+                    <!--Client Product-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Surveys</strong></div>
+                        <div class="col-lg-5">
+                            <i class="fa fa-check-square-o" aria-hidden="true"
+                               *ngIf="employee.is_survey == '1'"></i>
+                            <i class="fa fa-times" aria-hidden="true"
+                               *ngIf="employee.is_survey == '0'"></i>
+                        </div>
+                    </div>
+                    <br>
+                    <!--Client Product-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Online</strong></div>
+                        <div class="col-lg-5">
+                            <i class="fa fa-check-square-o" aria-hidden="true"
+                               *ngIf="employee.is_online == '1'"></i>
+                            <i class="fa fa-times" aria-hidden="true"
+                               *ngIf="employee.is_online == '0'"></i>
+
+                        </div>
+                    </div>
+                    <br>
+                    <!--Client Product-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Full Reports</strong></div>
+                        <div class="col-lg-5">
+                            <i class="fa fa-check-square-o" aria-hidden="true"
+                               *ngIf="employee.is_report == '1'"></i>
+                            <i class="fa fa-times" aria-hidden="true"
+                               *ngIf="employee.is_report == '0'"></i>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+        </nb-card>
+    </div>
+</div>

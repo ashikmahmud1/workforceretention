@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header>Add Article</nb-card-header>
+            <nb-card-body>
+                <form #f="ngForm" (ngSubmit)="createArticle()">
+                    <!--Show the error and success message here-->
+                    <div class="alert alert-danger" role="alert"
+                         *ngIf="errorMessage">
+                        {{errorMessage}}
+                    </div>
+                    <div class="alert alert-success" role="alert"
+                         *ngIf="successMessage">
+                        {{successMessage}}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="article-title" [(ngModel)]="article.title" nbInput fullWidth
+                                       placeholder="Article Title *">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="article-sub-title" [(ngModel)]="article.subtitle" nbInput
+                                       fullWidth
+                                       placeholder="Article Sub-title *">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="article-author" [(ngModel)]="article.author" nbInput fullWidth
+                                       placeholder="Article Author *">
+                            </div>
+                            <div class="form-group">
+                                <!--<nb-card-header>Common Datepicker</nb-card-header>-->
+                                <input name="publish-date" nbInput fullWidth
+                                       placeholder="Publication Date"
+                                       [nbDatepicker]="formpicker">
+                                <nb-datepicker #formpicker></nb-datepicker>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" [(ngModel)]="article.box_1"
+                                        name="article-call-out-box-1" required>
+                                    <option value="">Select Call-out Box 1 *</option>
+                                    <option *ngFor="let box of boxes" value="{{box._id}}">{{box.title}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" [(ngModel)]="article.box_2"
+                                        name="article-call-out-box-2" required>
+                                    <option value="">Select Call-out Box 2 *</option>
+                                    <option *ngFor="let box of boxes" value="{{box._id}}">{{box.title}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" [(ngModel)]="article.box_3"
+                                        name="article-call-out-box-3" required>
+                                    <option value="">Select Call-out Box 3 *</option>
+                                    <option *ngFor="let box of boxes" value="{{box._id}}">{{box.title}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="article-keywords" [(ngModel)]="article.keywords" nbInput
+                                       fullWidth
+                                       placeholder="Article Keywords *">
+                            </div>
+                            <div class="form-group">
+                                <nb-card-header
+                                        style=" padding-top: 10px; padding-bottom: 10px; font-size: 1rem">
+                                    Article Text *
+                                </nb-card-header>
+                                <ngx-tiny-mce (editorKeyup)="getEditorContent($event)"
+                                              ngDefaultControl></ngx-tiny-mce>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">
+                            {{articleId ? 'UPDATE' : 'SAVE'}}
+                        </button>
+                    </div>
+                </form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header
+                    class="text-center">UPDATE {{email.title}}
+            </nb-card-header>
+            <nb-card-body>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-8">
+
+                        <form #f="ngForm" (ngSubmit)="updateEmail()">
+                            <div class="alert alert-danger" role="alert"
+                                 *ngIf="errorMessage">
+                                {{errorMessage}}
+                            </div>
+                            <div class="alert alert-success" role="alert"
+                                 *ngIf="successMessage">
+                                {{successMessage}}
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" [(ngModel)]="email.from_address"
+                                       name="email-from-address"
+                                       placeholder="From Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="email.subject"
+                                       name="email-subject"
+                                       placeholder="Email Subject" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control form-rounded" [(ngModel)]="email.body" name="email-body"
+                                          placeholder="" rows="10" required></textarea>
+                            </div>
+                            <!--CAN ASSIGN COPY TO CLIENT-->
+                            <div class="form__group u-margin-bottom-medium">
+                                <label style="padding-top: 10px;padding-right: 20px">Can Assign Copy To Client *</label>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="assign-copy" [value]="true"
+                                           [checked]="email.assign_to_client == true" (change)="updateAssignValue($event.target.value)"
+                                           id="employee-active-yes">
+                                    <label for="employee-active-yes" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="assign-copy" [value]="false"
+                                           [checked]="email.assign_to_client== false" (change)="updateAssignValue($event.target.value)"
+                                           id="employee-active-no">
+                                    <label for="employee-active-no" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!--EDIT PER CLIENT-->
+                            <div class="form__group u-margin-bottom-medium">
+                                <label style="padding-top: 5px;padding-right: 97px">Edit Per Client *</label>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="edit-client" [value]="true"
+                                           [checked]="email.editable == true" (change)="updateEditValue($event.target.value)"
+                                           id="edit-client-yes">
+                                    <label for="edit-client-yes" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" name="edit-client" [value]="false"
+                                           [checked]="email.editable == false"(change)="updateEditValue($event.target.value)"
+                                           id="edit-client-no">
+                                    <label for="edit-client-no" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+                                    {{emailId ? 'UPDATE' : 'SAVE'}}
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

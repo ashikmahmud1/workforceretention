@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header class="text-center">
+                Survey Detail
+            </nb-card-header>
+            <div class="row">
+                <div class="alert alert-danger" role="alert"
+                     *ngIf="errorMessage">
+                    {{errorMessage}}
+                </div>
+                <div class="col-lg-12">
+                    <!--Client Industry Row-->
+                    <br>
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Survey Title</strong></div>
+                        <div class="col-lg-5">{{survey.title}}</div>
+                    </div>
+                    <br>
+                    <!--No Of Employees-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Survey Description</strong></div>
+                        <div class="col-lg-5" [innerHTML]="survey.description"></div>
+                    </div>
+                    <br>
+                    <!--Employee Turnover-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Survey Type</strong></div>
+                        <div class="col-lg-5">{{survey.type_label}}</div>
+                    </div>
+                    <br>
+                    <!--Client State and Country-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>Rating Scale</strong></div>
+                        <div class="col-lg-5">{{survey.rating_label}}</div>
+                    </div>
+                    <br>
+                    <!--Client Product-->
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4"><strong>No of questions</strong></div>
+                        <div class="col-lg-5">{{survey.no_of_questions}}</div>
+                    </div>
+                </div>
+            </div>
+            <br><br><br>
+            <!--Here display the form for adding rating label-->
+            <form [formGroup]="myForm" (ngSubmit)="saveSurvey()">
+
+                <div formArrayName="rating_labels">
+                    <div class="panel">
+                        <div class="question-box" *ngFor="let phone of getRatingLabels().controls; let i=index"
+                             [formGroupName]="i">
+                            <div class="container question-container" style="margin-bottom: 10px">
+                                <div class="row">
+                                    <div class="col-lg-1"><label>{{i + 1}}. *</label></div>
+                                    <div class="col-lg-11"><input formControlName="label" class="form-control"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="text-center">
+                    <button class="btn btn-primary">SAVE & CONTINUE</button>
+                </div>
+                <br>
+            </form>
+        </nb-card>
+    </div>
+</div>

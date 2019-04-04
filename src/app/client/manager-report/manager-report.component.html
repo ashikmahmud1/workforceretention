@@ -1,0 +1,236 @@
+<nb-layout>
+    <nb-layout-column>
+        <ngx-header></ngx-header>
+        <ngx-page-name [pageName]="'EXIT INTERVIEW REPORT'"></ngx-page-name>
+        <section class="home-section light-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10">
+                        <div class="filter-box">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!--Viewing Level Dropdown-->
+                                    <div class="form-group">
+                                        <select class="form-control" [(ngModel)]="filterData.level"
+                                                name="level">
+                                            <option value="">Select Level *</option>
+                                            <option *ngFor="let organization of organizations_divisions_departments"
+                                                    value="{{organization.id}}">
+                                                {{organization.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- Occupational Group -->
+                                    <div class="form-group">
+                                        <select class="form-control"
+                                                [(ngModel)]="filterData.occupational_group"
+                                                name="occ-group">
+                                            <option value="" selected>Select Occupational Group *</option>
+                                            <option *ngFor="let occ of occupations"
+                                                    value="{{occ.id}}">{{occ.value}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!--Start Date Datetime Show Box-->
+                                    <div class="form-group">
+                                        <input class="form-control" name="start_date"
+                                               placeholder="Start Date"
+                                               [nbDatepicker]="startDatePicker" [(ngModel)]="filterData.start_date">
+                                        <nb-datepicker #startDatePicker></nb-datepicker>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!--End Date Datetime Show Box-->
+                                    <div class="form-group">
+                                        <input class="form-control" name="end_date"
+                                               placeholder="End Date"
+                                               [nbDatepicker]="endDatePicker" [(ngModel)]="filterData.end_date">
+                                        <nb-datepicker #endDatePicker></nb-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!--Gender Dropdown Box-->
+                                    <div class="form-group">
+                                        <select class="form-control"
+                                                [(ngModel)]="filterData.gender"
+                                                name="gender">
+                                            <option value="" selected>Select Gender *</option>
+                                            <option *ngFor="let gender of genders"
+                                                    value="{{gender.id}}">{{gender.value}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!--Tenure Dropdown Box-->
+                                    <div class="form-group">
+                                        <select class="form-control"
+                                                [(ngModel)]="filterData.tenure"
+                                                name="tenure">
+                                            <option value="" selected>Select Tenure *</option>
+                                            <option *ngFor="let tenure of tenures"
+                                                    value="{{tenure.id}}">{{tenure.value}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" (click)="viewReport()">View Report</button>
+                        </div>
+                        <br>
+                        <h4 class="text-center">There are currently {{completed_surveys}} completed Exit Interviews at
+                            this level.</h4>
+                        <br><br>
+                        <table width="100%" *ngIf="completed_surveys !== 0">
+                            <tr>
+                                <th>Top 3 Reasons for Leaving</th>
+                                <th class="text-center">Ranking</th>
+                                <th class="text-center">Percentage ( % )</th>
+                            </tr>
+                            <tr *ngFor="let leaving_reason of top_leaving_reasons; let i=index">
+                                <td>{{exit_reasons[leaving_reason.label_index].value}}</td>
+                                <td class="text-center">{{i + 1}}</td>
+                                <td class="text-center">{{leaving_reason.percentage}}</td>
+                            </tr>
+                        </table>
+
+                        <br><br>
+                        <!--DISPLAY ALL THE CHART BELOW-->
+                        <!--FIRST CHART TOP REASONS FOR LEAVING - PERCENTAGE DISTRIBUTION-->
+                        <div *ngIf="completed_surveys !== 0">
+                            <h2>Top Reasons for Leaving - Percentage Distribution</h2>
+                            <div style="display: flex; overflow: hidden;height: 500px">
+                                <ngx-charts-bar-vertical
+                                        [scheme]="colorScheme"
+                                        [schemeType]="schemaType"
+                                        [results]="single"
+                                        [gradient]="gradient"
+                                        [xAxis]="showXAxis"
+                                        [yAxis]="showYAxis"
+                                        [legend]="false"
+                                        [showXAxisLabel]="showXAxisLabel"
+                                        [showYAxisLabel]="showYAxisLabel"
+                                        [showDataLabel]="showDataLabel"
+                                        [xAxisLabel]="xAxisLabel"
+                                        [yAxisLabel]="yAxisLabel"
+                                        (select)="onSelect($event)">
+                                </ngx-charts-bar-vertical>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="completed_surveys !== 0">
+                            <div *ngFor="let response of leaving_reason_rearranged_array; let i=index">
+                                <div *ngIf="exit_reason_data_mapper[response.label_index].value.length > 0">
+                                    <!--This means this is Career Opportunities Exit Reason-->
+                                    <!--Give a title -->
+                                    <h2>{{exit_reasons[response.label_index].value}} ( Rank {{i + 1}} )</h2>
+                                    <!--Display the chart-->
+                                    <div style="display: flex; overflow: hidden;height: 500px">
+                                        <ngx-charts-bar-vertical-stacked
+                                                [scheme]="colorScheme"
+                                                [schemeType]="schemaType"
+                                                [results]="exit_reason_data_mapper[response.label_index].value"
+                                                [gradient]="gradient"
+                                                [xAxis]="showXAxis"
+                                                [yAxis]="showYAxis"
+                                                [legend]="showLegend"
+                                                [showXAxisLabel]="false"
+                                                [showYAxisLabel]="false"
+                                                [showDataLabel]="showDataLabel"
+                                                [xAxisLabel]="xAxisLabel"
+                                                [yAxisLabel]="yAxisLabel"
+                                                (select)="onSelect($event)">
+
+                                        </ngx-charts-bar-vertical-stacked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="employee_sentiment_working_chart_data.length > 0">
+                                <h2>Employee Sentiment What's Working</h2>
+                                <div style="display: flex; overflow: hidden;min-height: 500px">
+                                    <ngx-charts-bar-horizontal-stacked
+                                            [scheme]="colorScheme"
+                                            [schemeType]="schemaType"
+                                            [results]="employee_sentiment_working_chart_data"
+                                            [gradient]="gradient"
+                                            [xAxis]="true"
+                                            [showXAxisLabel]="true"
+                                            [yAxis]="true"
+                                            [legend]="true"
+                                            (select)="onSelect($event)">
+                                    </ngx-charts-bar-horizontal-stacked>
+                                </div>
+                            </div>
+                            <div *ngIf="employee_sentiment_not_working_chart_data.length > 0">
+                                <h2>Employee Sentiment What's Not Working</h2>
+                                <div style="display: flex; overflow: hidden;min-height: 500px">
+                                    <ngx-charts-bar-horizontal-stacked
+                                            [scheme]="colorScheme"
+                                            [schemeType]="schemaType"
+                                            [results]="employee_sentiment_not_working_chart_data"
+                                            [gradient]="gradient"
+                                            [xAxis]="true"
+                                            [showXAxisLabel]="true"
+                                            [yAxis]="true"
+                                            [legend]="true"
+                                            (select)="onSelect($event)">
+                                    </ngx-charts-bar-horizontal-stacked>
+                                </div>
+                            </div>
+                            <div *ngIf="gender_split_chart_data.length > 0">
+                                <h2 class="text-center">Gender Split</h2>
+                                <div style="display: flex; overflow: hidden;height: 500px">
+                                    <ngx-charts-pie-chart
+                                            [scheme]="colorScheme"
+                                            [schemeType]="schemaType"
+                                            [results]="gender_split_chart_data"
+                                            [gradient]="gradient"
+                                            [labels]="true"
+                                            [legend]="true"
+                                            (select)="onSelect($event)">
+                                    </ngx-charts-pie-chart>
+                                </div>
+                            </div>
+                            <div *ngIf="tenure_split_chart_data.length > 0">
+                                <h2 class="text-center">Tenure Split</h2>
+                                <div style="display: flex; overflow: hidden;height: 500px">
+                                    <ngx-charts-pie-chart
+                                            [scheme]="colorScheme"
+                                            [schemeType]="schemaType"
+                                            [results]="tenure_split_chart_data"
+                                            [gradient]="gradient"
+                                            [labels]="true"
+                                            [legend]="true"
+                                            (select)="onSelect($event)">
+                                    </ngx-charts-pie-chart>
+                                </div>
+                            </div>
+                            <div *ngIf="age_split_chart_data.length > 0">
+                                <h2 class="text-center">Age Split</h2>
+                                <div style="display: flex; overflow: hidden;height: 500px">
+                                    <ngx-charts-pie-chart
+                                            [scheme]="colorScheme"
+                                            [schemeType]="schemaType"
+                                            [results]="age_split_chart_data"
+                                            [gradient]="gradient"
+                                            [labels]="true"
+                                            [legend]="true"
+                                            (select)="onSelect($event)">
+                                    </ngx-charts-pie-chart>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="col-lg-2"></div>
+                </div>
+            </div>
+        </section>
+    </nb-layout-column>
+</nb-layout>

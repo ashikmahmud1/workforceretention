@@ -1,0 +1,74 @@
+<nb-layout>
+    <nb-layout-column>
+        <ngx-header></ngx-header>
+        <section class="home-section light-gray">
+            <div class="container">
+                <div class="row">
+                    <!--Incomplete Surveys-->
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10">
+                        <!--Here design three box-->
+                        <h1 class="text-center">Welcome {{first_name}}</h1>
+                        <h5 class="text-center">Web-hosted Reporting</h5>
+                        <br>
+                        <h6 class="text-center">{{message}}</h6>
+                        <!--Show the Assign surveys-->
+                        <br>
+                        <p class="text-center">The following survey reporting options are available to you</p>
+                        <ngx-datatable
+                                [rows]="completedSurveys"
+                                [columnMode]="'force'"
+                                [headerHeight]="40"
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [externalPaging]="true"
+                                [count]="count"
+                                [offset]="offset"
+                                [limit]="limit"
+                                (page)='onChangeCompletedSurveys($event)'>
+                            <ngx-datatable-column name="reportType">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    Report Type
+                                </ng-template>
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                    <strong>{{value}}</strong>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="reportDescription">
+                                <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                                    <span>Report Description</span>
+                                </ng-template>
+                                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                    <div>{{value}}</div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="completedSurveys">
+                                <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                                    <p class="text-center"><span>Surveys/Employees</span></p>
+                                </ng-template>
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                    <p class="text-center"><strong>{{value}}</strong></p>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="completedSurveys">
+                                <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                                    <span>Action</span>
+                                </ng-template>
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    <button type="button" class="btn btn-primary"
+                                            (click)="onClickGoReport()">
+                                        GO
+                                    </button>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+
+                        <!--If click on the go button then redirect to the questions page-->
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </nb-layout-column>
+</nb-layout>
